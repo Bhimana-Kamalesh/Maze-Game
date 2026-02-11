@@ -242,6 +242,41 @@ h1.glitch {
     box-shadow: 0 0 5px var(--goal-color);
 }
 
+/* Pause Button */
+#pause-btn {
+    pointer-events: auto;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid var(--wall-color);
+    background: rgba(0, 255, 255, 0.1);
+    color: var(--wall-color);
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.3s ease;
+}
+
+#pause-btn:hover {
+    background: var(--wall-color);
+    color: #000;
+}
+
+/* Extreme Difficulty Special Style */
+.difficulty-btn[data-diff="extreme"] {
+    border-color: #f0f;
+    color: #f0f;
+    box-shadow: 0 0 10px #f0f;
+}
+
+.difficulty-btn[data-diff="extreme"]:hover {
+    background: #f0f;
+    color: #000;
+    box-shadow: 0 0 20px #f0f, 0 0 40px #f0f;
+}
+
+/* Pause Overlay Specifics */
+#pause-overlay .neon-text {
+    margin-bottom: 40px;
+}
+
 /* --- Responsive Adjustments --- */
 
 @media (max-width: 768px) {
