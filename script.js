@@ -509,43 +509,43 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Input Handling - Swipe
-function setupSwipeControls() {
+// Input Handling - Continuous Touch (Drag)
+function setupTouchControls() {
     let touchStartX = 0;
     let touchStartY = 0;
+    const MOVEMENT_THRESHOLD = 30; // Pixels to drag before moving
 
     document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }, false);
+        touchStartX = e.touches[0].screenX;
+        touchStartY = e.touches[0].screenY;
+    }, { passive: false });
 
-    document.addEventListener('touchend', (e) => {
-        let touchEndX = e.changedTouches[0].screenX;
-        let touchEndY = e.changedTouches[0].screenY;
+    document.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // Prevent scrolling
 
-        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
-    }, false);
+        const touchCurrentX = e.touches[0].screenX;
+        const touchCurrentY = e.touches[0].screenY;
+
+        const dx = touchCurrentX - touchStartX;
+        const dy = touchCurrentY - touchStartY;
+
+        if (Math.abs(dx) > MOVEMENT_THRESHOLD || Math.abs(dy) > MOVEMENT_THRESHOLD) {
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // Horizontal
+                movePlayer(dx > 0 ? 1 : -1, 0);
+            } else {
+                // Vertical
+                movePlayer(0, dy > 0 ? 1 : -1);
+            }
+
+            // Reset start position to current to allow continuous movement
+            touchStartX = touchCurrentX;
+            touchStartY = touchCurrentY;
+        }
+    }, { passive: false });
 }
 
-function handleSwipe(startX, startY, endX, endY) {
-    const dx = endX - startX;
-    const dy = endY - startY;
-    const absDx = Math.abs(dx);
-    const absDy = Math.abs(dy);
-
-    // Minimum threshold to be considered a swipe
-    if (Math.max(absDx, absDy) < 30) return;
-
-    if (absDx > absDy) {
-        // Horizontal
-        movePlayer(dx > 0 ? 1 : -1, 0);
-    } else {
-        // Vertical
-        movePlayer(0, dy > 0 ? 1 : -1);
-    }
-}
-
-setupSwipeControls();
+setupTouchControls();
 
 window.addEventListener('resize', () => {
     if (gameState.isPlaying) resizeCanvas();
