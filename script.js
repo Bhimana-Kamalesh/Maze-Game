@@ -28,6 +28,7 @@ const scoreDisplay = document.getElementById('score-display');
 const timeDisplay = document.getElementById('time-display');
 const levelSelectTitle = document.getElementById('level-select-title');
 
+const hud = document.getElementById('hud');
 const pauseBtn = document.getElementById('pause-btn');
 const pauseOverlay = document.getElementById('pause-overlay');
 const resumeBtn = document.getElementById('resume-btn');
@@ -456,6 +457,7 @@ function startLevel(lvl) {
     levelDisplay.textContent = gameState.level;
     scoreDisplay.textContent = gameState.score;
 
+    hud.classList.remove('hidden');
     initLevel();
 }
 
@@ -519,7 +521,7 @@ returnMapBtn.addEventListener('click', () => {
 function togglePause() {
     if (!gameState.isPlaying) return;
     gameState.isPaused = !gameState.isPaused;
-    
+
     if (gameState.isPaused) {
         pauseOverlay.classList.remove('hidden');
     } else {
@@ -556,6 +558,7 @@ exitMenuBtn.addEventListener('click', () => {
     difficultyOverlay.classList.add('hidden');
     levelSelectOverlay.classList.add('hidden');
     menuOverlay.classList.remove('hidden');
+    hud.classList.add('hidden');
 });
 
 restartBtn.addEventListener('click', () => startLevel(gameState.level));
